@@ -1,0 +1,30 @@
+// ==UserScript==
+// @name         42 Forum mask !you
+// @description  Make the order win!
+// @author       tbailleu
+// @version      1.2.0
+// @encoding     utf-8
+// @namespace    https://intra.42.fr/
+// @match        https://forum.intra.42.fr/topics/*/messages*
+// @grant        none
+// ==/UserScript==
+
+window.orderuser = ["hben-yah"];
+
+setInterval(()=>{
+    document.querySelectorAll('.btn[data-load-next],.btn[data-load-previous]').forEach(e=>e.click());
+},1000);
+
+setInterval(()=>{
+    document.querySelectorAll("a.reply-author").forEach(e=>{
+        if (!window.orderuser.includes(e.href.split('https://profile.intra.42.fr/users/').join(''))) {
+            e.parentElement.parentElement.parentElement.remove();
+        }
+    });
+    document.querySelectorAll("a.message-author").forEach(e=>{
+        if (!window.orderuser.includes(e.href.split('https://profile.intra.42.fr/users/').join(''))) {
+            e = e.parentElement.parentElement.parentElement;
+            if (e.querySelectorAll(".message-reply-item").length === 0) e.remove();
+        }
+    })
+},250);
